@@ -110,3 +110,10 @@ Stop and remove containers:
 ```bash
 docker compose -f compose.dev.yml down
 ```
+
+Docker Commands
+  - Terminal 1: docker compose -f compose.dev.yml up
+    postgres
+  - Terminal 2 (backend): cd backend && .\mvnw.cmd spring-
+    boot:run
+  - Terminal 3 (frontend): cd frontend && npm run dev
