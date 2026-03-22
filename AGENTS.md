@@ -8,11 +8,10 @@ Users submit a website they control; the system runs safe scans, finds exposed s
 - Defensive tooling only.
 - Scan only customer-authorized targets.
 - Safe-by-default: prefer passive checks first.
-- Do not add exploit logic, internet-wide scanning, or risky “verification” of secrets.
 - Optimize for a real, deployable B2B product, not a toy demo.
 
 ## Current target stack
-- Backend: Java 17, Spring Boot
+- Backend: Java 21, Spring Boot
 - Data: PostgreSQL, Spring Data JPA / Hibernate
 - Frontend: React
 - Crawling: Playwright Java

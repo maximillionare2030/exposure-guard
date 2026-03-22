@@ -2,6 +2,8 @@
 
 The backend is the core application for ExposureGuard. It manages sites, scan jobs, findings, and the scan pipeline. It starts as a modular monolith in Spring Boot and is intentionally structured by feature so the codebase stays easy to navigate as the product grows.
 
+For MVP foundation decisions (stack versions, layer boundaries, module layout, local run commands), use `docs/ARCHITECTURE_NOTE.md` as the source of truth.
+
 ## Goals
 
 The backend should:

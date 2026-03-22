@@ -3,7 +3,7 @@
 This document turns `docs/PRD.md` into a practical end-to-end build checklist for the MVP.
 
 ## Assumptions
-- Use the current repo stack as the source of truth where it differs from the PRD: Java 21 and PostgreSQL instead of Java 17 and MySQL.
+- Use the architecture note as the stack source of truth: Java 21 and PostgreSQL for MVP.
 - Keep the product defensive and passive-by-default.
 - Build the smallest complete product loop first: create site -> start scan -> async processing -> persist findings -> review results in the UI.
 
@@ -13,12 +13,12 @@ This document turns `docs/PRD.md` into a practical end-to-end build checklist fo
 **Goal:** Make the repo structure, product scope, and environment consistent before feature work expands.
 
 #### Tasks
-- [ ] Reconcile docs so the stack is described consistently across `README.md`, `docs/PRD.md`, backend docs, and compose files.
-- [ ] Decide whether Flyway should be introduced now or immediately after the first persisted entities land.
-- [ ] Define the backend module/package layout for `site`, `scan`, `finding`, `common`, and `config`.
-- [ ] Define the frontend feature layout for `sites`, `scan-jobs`, and `findings`.
-- [ ] Confirm local development commands for backend, frontend, and Docker Compose.
-- [ ] Add a short architecture note describing controller -> service -> repository boundaries.
+- [x] Reconcile docs so the stack is described consistently across `README.md`, `docs/PRD.md`, backend docs, and compose files.
+- [x] Decide whether Flyway should be introduced now or immediately after the first persisted entities land. Decision: introduce now.
+- [x] Define the backend module/package layout for `site`, `scan`, `finding`, `common`, and `config`.
+- [x] Define the frontend feature layout for `sites`, `scan-jobs`, and `findings`.
+- [x] Confirm local development commands for backend, frontend, and Docker Compose.
+- [x] Add a short architecture note describing controller -> service -> repository boundaries.
 
 #### Exit criteria
 - One documented source of truth for the MVP stack and module layout.

@@ -11,6 +11,14 @@ Users submit a website they control; the system runs safe scans, finds exposed s
 - Start as a modular monolith
 - Add Kafka only after the core scan flow works
 
+## Foundation source of truth
+Use [docs/ARCHITECTURE_NOTE.md](docs/ARCHITECTURE_NOTE.md) as the canonical MVP foundation reference for:
+- stack versions
+- backend/frontend module layout
+- layer boundaries
+- local dev commands
+- Flyway timing decision
+
 ## Initial stack
 - Backend: Java 21, Spring Boot
 - Data: PostgreSQL, Spring Data JPA / Hibernate
@@ -111,9 +119,7 @@ Stop and remove containers:
 docker compose -f compose.dev.yml down
 ```
 
-Docker Commands
-  - Terminal 1: docker compose -f compose.dev.yml up
-    postgres
-  - Terminal 2 (backend): cd backend && .\mvnw.cmd spring-
-    boot:run
-  - Terminal 3 (frontend): cd frontend && npm run dev
+Hybrid local commands (recommended day-to-day):
+- Terminal 1: `docker compose -f compose.dev.yml up postgres`
+- Terminal 2: `cd backend && .\mvnw.cmd spring-boot:run`
+- Terminal 3: `cd frontend && npm run dev`

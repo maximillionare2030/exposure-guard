@@ -95,7 +95,7 @@ The initial technical build should help the builder learn:
 
 - Java + Spring Boot backend development
 - REST API design
-- MySQL + JPA/Hibernate persistence
+- PostgreSQL + JPA/Hibernate persistence
 - async job orchestration
 - React dashboard architecture
 - Docker Compose local environments
@@ -211,7 +211,7 @@ Profile:
 - fake async worker initially
 - findings persistence
 - findings UI
-- MySQL persistence
+- PostgreSQL persistence
 - React dashboard
 - local full-stack run via Docker Compose
 - passive/safe scan posture
@@ -451,7 +451,7 @@ Responsibilities:
 - future integration orchestration
 
 ## 16.3 Database
-**MySQL + Spring Data JPA / Hibernate**
+**PostgreSQL + Spring Data JPA / Hibernate**
 
 Responsibilities:
 - sites
@@ -463,7 +463,7 @@ Responsibilities:
 **Docker Compose**
 
 Responsibilities:
-- local MySQL
+- local PostgreSQL
 - later ZAP container
 - later supporting services
 
@@ -669,7 +669,7 @@ For MVP, these can mostly be observed manually.
 Deliverables:
 - Spring Boot backend generated
 - React frontend generated
-- MySQL in Docker Compose
+- PostgreSQL in Docker Compose
 - health endpoint
 - basic repo structure
 
@@ -726,7 +726,7 @@ The MVP is successful when:
 - a scan job can be started from the UI
 - the backend processes the job asynchronously
 - scan status changes are visible
-- findings are written to MySQL
+- findings are written to PostgreSQL
 - findings can be viewed in the dashboard
 - the app runs locally across frontend, backend, and database
 - the experience is good enough for an internal demo
@@ -781,7 +781,7 @@ Keep product positioning and UX clearly centered on customer-owned targets.
 ## 27. Recommended Build Order
 
 1. Scaffold backend, frontend, and infra
-2. Add MySQL config and health endpoint
+2. Add PostgreSQL config and health endpoint
 3. Build `Site` CRUD
 4. Build `ScanJob` creation + listing
 5. Add fake async worker
@@ -827,7 +827,7 @@ ExposureGuard v0.1 is done when:
 - Vite
 
 ### Database
-- MySQL
+- PostgreSQL
 
 ### Local Infra
 - Docker Compose
