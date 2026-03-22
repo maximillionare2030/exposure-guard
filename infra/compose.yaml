@@ -1,17 +1,16 @@
 services:
-  mysql:
-    image: mysql:8.4
-    container_name: exposureguard-mysql
+  postgres:
+    image: postgres:17
+    container_name: exposureguard-postgres
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: exposureguard
-      MYSQL_USER: app
-      MYSQL_PASSWORD: app
+      POSTGRES_DB: exposureguard
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  mysql_data:
+  postgres_data:

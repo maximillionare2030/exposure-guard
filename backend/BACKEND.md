@@ -7,7 +7,7 @@ The backend is the core application for ExposureGuard. It manages sites, scan jo
 The backend should:
 
 - expose REST APIs for the frontend
-- persist core product data in MySQL
+- persist core product data in PostgreSQL
 - manage the scan job lifecycle
 - run safe background scan workflows
 - integrate later with Playwright and OWASP ZAP
@@ -19,7 +19,7 @@ The backend should:
 - Spring Boot
 - Spring Web
 - Spring Data JPA / Hibernate
-- MySQL
+- PostgreSQL
 - Validation
 - Lombok
 - Actuator

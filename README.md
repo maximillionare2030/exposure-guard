@@ -13,7 +13,7 @@ Users submit a website they control; the system runs safe scans, finds exposed s
 
 ## Initial stack
 - Backend: Java 17, Spring Boot
-- Data: MySQL, Spring Data JPA / Hibernate
+- Data: PostgreSQL, Spring Data JPA / Hibernate
 - Frontend: React
 - Crawling: Playwright Java
 - Security scanning: OWASP ZAP
@@ -47,7 +47,7 @@ exposureguard/
 ├── backend/
 ├── frontend/
 ├── infra/
-│   ├── mysql/
+│   ├── postgres/
 │   └── zaproxy/
 ├── docs/
 │   ├── architecture/
@@ -58,7 +58,7 @@ exposureguard/
 
 ## Suggested first tasks
 ### Backend
-- Create Spring Boot app with: Web, Data JPA, Validation, MySQL Driver, Lombok, Actuator
+- Create Spring Boot app with: Web, Data JPA, Validation, PostgreSQL Driver, Lombok, Actuator
 - Add core models: `Site`, `ScanJob`, `Finding`
 - Add migrations for the first schema
 - Build endpoints to create/list sites and scan jobs
@@ -72,7 +72,7 @@ exposureguard/
 
 ### Infra
 - Add `compose.yml`
-- Run MySQL locally
+- Run PostgreSQL locally
 - Add ZAP container later, after the fake worker flow is stable
 
 ## Working principles
@@ -83,7 +83,7 @@ The app is ready for an internal alpha when:
 - a site can be created
 - a scan job can be started
 - the backend processes a fake scan asynchronously
-- findings are stored in MySQL
+- findings are stored in PostgreSQL
 - the dashboard shows scan status and findings
 - the full stack runs locally
 
@@ -91,3 +91,22 @@ The app is ready for an internal alpha when:
 - Keep comments short and explain why, not what.
 - Prefer the smallest correct change.
 - Avoid premature microservices and speculative abstractions.
+
+## Local dev container stack
+Use Docker Compose to boot frontend, backend, and PostgreSQL together:
+
+```bash
+docker compose -f compose.dev.yml up --build
+```
+
+Endpoints:
+- Frontend (Vite): `http://localhost:5173`
+- Backend (Spring Boot): `http://localhost:8080`
+- Backend health: `http://localhost:8080/api/health`
+- PostgreSQL: `localhost:5432` (`app` / `app`, db `exposureguard`)
+
+Stop and remove containers:
+
+```bash
+docker compose -f compose.dev.yml down
+```
