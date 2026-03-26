@@ -3,566 +3,710 @@
 ## 1. Document Overview
 
 **Product Name:** ExposureGuard
-**Product Type:** Authorized website security health checker
+**Product Type:** Instant website exposure checker
 **Stage:** MVP / v0.1 PRD
 **Author:** Maximillian + AI-assisted build
 **Status:** Draft
-**Primary Audience:** Founder, builder, future collaborators, Codex/LLM assistants
+**Primary Audience:** Founder, builders, future collaborators, LLM/codegen assistants
 
 ---
 
 ## 2. Product Summary
 
-ExposureGuard is an authorized website security health checker for developers and small teams.
+ExposureGuard is a lightweight website checker that lets a user paste in a URL and run a safe, passive scan without creating an account first.
 
-A user submits a website they control. ExposureGuard runs safe scans to identify exposed secrets, information leaks, public misconfigurations, and common low-risk web security findings. It then returns a report with severity, evidence, affected pages, and remediation guidance.
+The product is designed to feel casual and instant rather than like a heavy developer security tool. A visitor lands on the homepage, enters a URL, and starts a test immediately. The system either returns a recent cached result for that URL or runs a fresh scan. When the scan completes, the user is prompted to create an account to unlock and keep the full report.
 
-The product begins as a modular monolith with a React frontend and Spring Boot backend. It starts with passive checks and an internal scan pipeline. Later versions can add authenticated scans, recurring scans, alerts, and event-driven distributed processing.
+Free users can unlock up to **3 reports/tests** total. After that, they must upgrade to a paid plan to unlock additional reports.
+
+The MVP should prioritize:
+- zero-friction first interaction
+- fast time to value
+- safe and passive checks only
+- clear, understandable reporting
+- simple monetization around report access
 
 ---
 
 ## 3. Problem Statement
 
-Small teams often deploy websites without strong security review processes. As a result, they may accidentally expose:
+Many website owners want a quick answer to a simple question:
 
-- API keys in frontend bundles
-- sensitive configuration in public assets
-- debug or admin endpoints
-- source maps or internal metadata
-- obvious unsafe setup patterns
-- common passive scan findings
+**“Does my site have any obvious public-facing issues?”**
 
-Existing security tools are often:
-- too enterprise-heavy
-- too expensive
-- too broad
-- too offensive in posture
-- hard to set up for small engineering teams
+The current market often forces users into one of two bad experiences:
+- enterprise security products that feel too complex, expensive, or technical
+- generic scanners with poor UX, unclear results, or little trust
 
-There is room for a focused developer-friendly tool that helps teams safely inspect their own websites and quickly fix obvious issues.
+For casual users, indie hackers, startup founders, marketers, and small teams, the biggest friction is often before the scan even starts:
+- required sign-up before trying the product
+- too much setup
+- dashboards and configuration before value
+- unclear output
+
+There is room for a product that behaves more like a consumer utility:
+- paste a URL
+- run a safe test
+- show useful results
+- convert the user only after value is demonstrated
 
 ---
 
 ## 4. Product Vision
 
-Build a developer-first security health checker that makes it easy for teams to continuously inspect websites they own and discover public-facing risks before those issues become incidents.
+Build the easiest way for someone to check a website for obvious public-facing issues.
 
 ExposureGuard should feel like:
-- a lightweight web security operator dashboard
-- a safe, defensive tool
-- a product that gives useful findings quickly
-- a platform that can evolve into more advanced scanning and monitoring over time
+- an instant web utility
+- simple, modern, and low-friction
+- trustworthy and safe
+- useful within seconds
+- premium only after the user sees value
+
+The product should not feel like a security operations dashboard in the MVP. It should feel more like:
+- “check my website now”
+- “show me what is wrong”
+- “let me unlock the full report”
 
 ---
 
 ## 5. Product Principles
 
-### 5.1 Defensive Only
-ExposureGuard is a defensive product. It exists to help customers inspect systems they own or are authorized to scan.
+### 5.1 Zero Friction First
+A user should be able to start a test immediately from the landing page without signing in.
 
-### 5.2 Safe by Default
-The initial product should prefer passive checks, passive scanning, and low-risk discovery before introducing any deeper or authenticated scanning.
+### 5.2 Value Before Account Creation
+The account wall should appear after the user has already taken action and understands what the product does.
 
-### 5.3 Product Before Infrastructure
-The product loop matters more than architecture sophistication. Build the simplest working version first, then evolve it.
+### 5.3 Safe by Default
+The MVP should use passive, non-destructive checks only.
 
-### 5.4 Modular Monolith First
-The system starts as a single deployable backend, clearly organized by feature modules. Kafka and service extraction come later.
+### 5.4 Casual Product Feel
+The language, UX, and interaction model should feel simple and approachable, not enterprise-heavy.
 
 ### 5.5 Actionable Output
-Findings must be understandable and useful, not raw scanner noise.
+Reports must be readable, credible, and useful.
 
-### 5.6 Explainability
-The product should show why a finding exists, where it was found, why it matters, and how to fix it.
+### 5.6 Cache for Speed and Cost Control
+The platform should avoid rerunning the same URL unnecessarily when a recent result already exists.
+
+### 5.7 Product Before Infrastructure
+Prove the product loop and conversion flow before adding advanced architecture.
 
 ---
 
 ## 6. Goals
 
 ### 6.1 MVP Goals
-The MVP should allow a user to:
+The MVP should allow a visitor to:
+- paste in a URL on the homepage
+- start a test without signing in
+- receive a fresh or cached scan result
+- create an account to unlock the full report
+- use up to 3 free report unlocks/tests
+- upgrade after the free limit is reached
 
-- create a site
-- start a scan job
-- run a safe scan workflow
-- store findings in a database
-- review scan history
-- view findings with severity, evidence, and remediation
-- use the product through a simple dashboard
+### 6.2 Product Goals
+The product should:
+- feel fast and simple
+- generate trust quickly
+- create a strong visitor-to-signup conversion loop
+- create a clear free-to-paid monetization path
 
-### 6.2 Technical Goals
+### 6.3 Technical Goals
 The initial technical build should help the builder learn:
-
 - Java + Spring Boot backend development
 - REST API design
-- PostgreSQL + JPA/Hibernate persistence
+- React frontend flows
 - async job orchestration
-- React dashboard architecture
-- Docker Compose local environments
-- later, Playwright, ZAP, and Kafka
-
-### 6.3 Product Goals
-The product should become usable enough for:
-
-- internal demos
-- portfolio value
-- learning production backend concepts
-- future expansion into a more serious B2B tool
+- caching strategy
+- auth and usage metering
+- Stripe or equivalent billing integration later in the flow
 
 ---
 
 ## 7. Non-Goals
 
 The MVP will **not** include:
-
+- enterprise dashboards
+- team/org management
+- full vulnerability management workflows
 - internet-wide scanning
-- offensive exploitation workflows
-- bug bounty automation
-- secret verification against third-party live services
-- full enterprise multi-tenancy
-- RBAC / org management
-- billing
+- offensive exploitation features
+- aggressive scanning
+- authenticated scans
+- recurring background monitoring
 - large-scale alert routing
+- complex RBAC
 - microservices
-- Kubernetes
 - Kafka-first architecture
-- polished enterprise UI
-- deep compliance workflows
+- polished enterprise compliance workflows
 
-The MVP is a focused authorized security health checker, not a full AppSec platform.
+The MVP is a simple URL-to-report product with account gating and a limited free tier.
 
 ---
 
 ## 8. Target Users
 
 ### 8.1 Primary User
-**Small engineering teams / startup developers**
+**Indie hackers, founders, and solo builders**
 
 Profile:
-- builds and deploys websites quickly
-- may not have a dedicated security engineer
-- wants a straightforward way to inspect public-facing assets
+- owns or manages a website
+- wants quick peace of mind
+- is unlikely to tolerate heavy setup
+- responds well to simple, self-serve tools
 
 Needs:
-- simple setup
-- clear findings
-- low noise
-- remediation guidance
+- instant testing
+- simple report language
+- low friction
+- clear call to action
 
 ### 8.2 Secondary User
-**Solo developer / indie hacker**
+**Small startup teams and marketers**
 
 Profile:
-- owns a website or app
-- wants confidence before launch or after deployment
-- values simple UX and fast time to value
+- responsible for a public website
+- may not have security expertise
+- wants a quick external check
+
+Needs:
+- obvious findings only
+- understandable recommendations
+- easy sharing or saving later
 
 ### 8.3 Tertiary User
-**Security-conscious engineering lead**
+**Developers who want a lightweight first pass**
 
 Profile:
-- wants visibility into website risk
-- wants scans tied to a known target
-- wants scan history and evidence
+- technical enough to act on findings
+- willing to pay if the reports are useful
+- does not want enterprise tooling for simple checks
 
 ---
 
 ## 9. Jobs To Be Done
 
 ### Functional JTBD
-- When I deploy a website, I want to scan it for obvious public-facing issues so I can fix problems before users or attackers discover them.
+- When I have a website, I want to paste in the URL and quickly learn whether there are obvious public-facing issues.
 
 ### Emotional JTBD
-- I want confidence that I have not accidentally leaked something embarrassing or risky.
+- I want confidence that I have not accidentally exposed something embarrassing or risky.
 
-### Operational JTBD
-- I want one place where I can review scan history, findings, and recommended fixes.
+### Economic JTBD
+- I want to try the product before committing to signup or payment.
 
 ---
 
-## 10. User Stories
+## 10. Core User Stories
 
-### Sites
-- As a user, I want to create a site so I can track scans against a specific target.
-- As a user, I want to view a list of my sites so I can manage them easily.
+### Instant Testing
+- As a visitor, I want to paste in a URL and start a test immediately so I can get value before signing up.
+- As a visitor, I want the product to feel fast and simple so I do not bounce before understanding it.
 
-### Scan Jobs
-- As a user, I want to start a scan for a site so I can inspect the current state of that website.
-- As a user, I want to see scan job status so I know whether the scan is queued, running, completed, or failed.
+### Results and Unlocking
+- As a visitor, I want to know that a scan finished and that a report exists so I feel motivated to create an account.
+- As a visitor, I want to create an account only when I need the report so the signup feels earned.
+- As a free user, I want to unlock up to 3 reports so I can meaningfully try the product.
 
-### Findings
-- As a user, I want to see findings for a scan so I can understand the issues discovered.
-- As a user, I want each finding to show severity, evidence, and remediation so I know what to do next.
+### Caching
+- As a user, I want repeated scans of the same URL to return cached results when appropriate so I do not wait unnecessarily.
+- As the business, I want to avoid rerunning the same test repeatedly so infrastructure cost stays controlled.
 
-### Future
-- As a user, I want authenticated scans for my site so deeper pages can be inspected.
-- As a user, I want recurring scans and alerts so I can monitor over time.
+### Monetization
+- As a user, I want to understand when I have used my free tests and what I get by paying.
+- As the business, I want a clean upgrade moment after the free quota is used.
 
 ---
 
 ## 11. MVP Scope
 
 ### Included in v0.1
-- site creation
-- site listing
-- site detail page
-- scan job creation
-- scan job lifecycle
-- fake async worker initially
-- findings persistence
-- findings UI
-- PostgreSQL persistence
-- React dashboard
-- local full-stack run via Docker Compose
-- passive/safe scan posture
+- landing page with URL input
+- no-login test start
+- URL normalization and validation
+- async scan job creation
+- result caching by normalized URL
+- cached-result lookup before rerun
+- account creation flow after scan completion
+- report unlock flow tied to account
+- free quota of 3 unlocked reports/tests per user
+- paywall once free quota is exhausted
+- report page with severity, evidence, and remediation
+- simple result history for signed-in users
+- passive/safe scan posture only
 
 ### Included in v0.2 / early next
-- real crawl discovery
-- passive detector engine
-- real scan results instead of only fake findings
-- basic evidence formatting
-- better status handling
+- better scan quality and detectors
+- polished marketing site
+- payment integration refinement
+- saved report history improvements
+- share/export basics
 
 ### Included in v0.3 / later
-- ZAP baseline integration
-- authenticated scan support
-- scan history improvements
-- ignore / resolve workflow
-- alerts / notifications
-
-### Included in v1+
-- Kafka-based event pipeline
-- service decomposition
-- richer observability
-- org/team features
 - recurring monitoring
+- domain ownership verification
+- richer scan categories
+- alerts/notifications
+- authenticated scans
+- deeper reporting and trend views
 
 ---
 
 ## 12. User Flow
 
-### 12.1 Core MVP Flow
-1. User opens the app.
-2. User creates a site with a name and base URL.
-3. User opens the site detail page.
-4. User starts a scan job.
-5. Backend creates a scan record and processes the scan asynchronously.
-6. Scan status updates from `QUEUED` → `RUNNING` → `COMPLETED` or `FAILED`.
-7. Findings are stored.
-8. User reviews findings in the dashboard.
+### 12.1 Core Visitor Flow
+1. Visitor lands on the homepage.
+2. Visitor enters a URL.
+3. Visitor clicks **Run Test**.
+4. System normalizes the URL.
+5. System checks whether a recent cached result exists.
+6. If cached, the system reuses the cached result.
+7. If not cached, the backend creates a new scan job and processes it asynchronously.
+8. Visitor sees progress / status messaging.
+9. When the result is ready, the product prompts the visitor to create an account to unlock the full report.
+10. If the visitor signs up and still has free quota remaining, the report is unlocked.
+11. If the visitor has already used 3 free report unlocks/tests, the paywall is shown.
 
-### 12.2 Later Authenticated Flow
-1. User creates site.
-2. User configures verified authorization inputs.
-3. User provides login flow/test credentials.
-4. System runs authenticated scan within allowed scope.
-5. Findings include protected content/pages where relevant.
+### 12.2 Signed-In Free User Flow
+1. User signs in or creates an account.
+2. User unlocks a report.
+3. The system decrements remaining free quota.
+4. The report is saved to the user account.
+5. User can revisit previously unlocked reports.
+
+### 12.3 Paid User Flow
+1. User has exhausted the free tier.
+2. User upgrades.
+3. User can continue unlocking/running additional reports according to the paid plan.
 
 ---
 
 ## 13. Functional Requirements
 
-## 13.1 Site Management
+## 13.1 URL Submission
 
 ### Requirement
-The system must allow users to create and view sites.
+The system must allow any visitor to submit a URL without authentication.
 
 ### Inputs
-- site name
-- base URL
+- raw URL input
 
 ### Behavior
 - validate URL format
-- persist site record
-- make site available for future scans
+- normalize URL into a canonical cache key
+- reject unsupported or malformed URLs
+- create or reuse a scan context
 
 ### Outputs
-- site ID
-- site detail payload
-- site list entry
+- accepted submission state
+- scan status or cached-result state
 
 ---
 
-## 13.2 Scan Job Management
+## 13.2 URL Normalization
 
 ### Requirement
-The system must allow users to start scan jobs for a site.
+The system must normalize equivalent URLs so duplicate scans are reduced.
 
 ### Behavior
-- create scan job row
-- assign initial status
-- process asynchronously
-- update lifecycle timestamps
+Examples of normalization rules may include:
+- lowercase hostname
+- strip trailing slash where appropriate
+- remove default ports
+- standardize scheme handling rules
+- optionally ignore tracking query parameters
+
+### Output
+- normalized URL string used as cache key
+
+---
+
+## 13.3 Scan Job Management
+
+### Requirement
+The system must create scan jobs for uncached URLs.
 
 ### Scan States
 - `QUEUED`
 - `RUNNING`
 - `COMPLETED`
 - `FAILED`
+- `CACHED`
 
-### Outputs
-- scan job record
-- updated status over time
-- findings tied to scan job
+### Behavior
+- create a scan job for a normalized URL when no valid cache exists
+- process the scan asynchronously
+- store timestamps and status
+- attach findings/report data to the result
 
 ---
 
-## 13.3 Findings Storage
+## 13.4 Cached Results
 
 ### Requirement
-The system must persist findings produced by a scan.
+The system must avoid rerunning the same URL when a recent cached result exists.
 
-### Finding fields
-- title
-- type
+### Behavior
+- before running a new test, check for a recent successful result for the normalized URL
+- if a valid cached result exists, serve it instead of running a new scan
+- cached results should still respect account gating and quota rules for report access
+- cache freshness window should be configurable
+
+### Recommended MVP Default
+- default cache freshness window: **7 days**
+
+### Notes
+The same cached result may be shown to multiple visitors if they request the same normalized URL within the freshness window.
+
+---
+
+## 13.5 Reporting / Results Access
+
+### Requirement
+The system must gate full report access behind account creation.
+
+### Behavior
+- users may start tests anonymously
+- full report unlock requires account creation or sign-in
+- once unlocked, the report is attached to the user account
+- signed-in users can revisit their unlocked reports
+
+### Minimum report content
+- overall status / summary
+- issue title
 - severity
-- evidence
-- affected URL
-- remediation text
-- scan job reference
-- site reference
-- timestamps
-
-### Behavior
-- findings must be queryable by site
-- findings must be queryable by scan job
-
----
-
-## 13.4 Findings Display
-
-### Requirement
-The frontend must display findings in a readable operational format.
-
-### Minimum UI elements
-- title
-- severity badge
-- affected URL
+- affected URL or location
 - evidence snippet
-- remediation text
+- explanation
+- remediation guidance
 
 ---
 
-## 13.5 Scan History
+## 13.6 Free Tier Limit
 
 ### Requirement
-The system must store and show historical scans for a site.
+The system must enforce a 3-test/report free limit per account.
 
 ### Behavior
-- each scan job is preserved
-- user can review prior runs
-- findings are attributable to a specific scan
+- each full report unlock consumes one free credit
+- maximum free credits per account: **3**
+- after the third free unlock, additional report access requires payment
+- remaining credits must be visible in the UI
+
+### MVP Interpretation
+For v0.1, the 3-test limit should be treated as a **per-account lifetime free quota**, unless changed later by product decision.
 
 ---
 
-## 13.6 Async Processing
+## 13.7 Account System
 
 ### Requirement
-The scan lifecycle must run asynchronously, not during the HTTP request itself.
+The system must support account creation at the point of report unlock.
 
 ### Behavior
-- POST request creates job
-- background process performs scan work
-- frontend polls for status
+- account creation should be minimal and fast
+- user can sign up with email/password or social login later
+- the post-scan signup flow should preserve context and return the user directly to the report unlock state
 
 ---
 
-## 13.7 Initial Fake Worker
+## 13.8 Payment Gate
 
 ### Requirement
-The system must first support a fake scan worker before real scanner integrations are added.
+The system must block additional report unlocks after the free quota is exhausted.
 
 ### Behavior
-- simulate a job duration
-- create mock findings
-- complete scan successfully
+- show clear upgrade messaging
+- explain free quota usage
+- do not silently rerun or unlock reports without payment once quota is exhausted
 
-This is required to prove the product loop before adding real integrations.
+### MVP Note
+Billing can be stubbed initially, but the product flow should be designed around a real future upgrade path.
+
+---
+
+## 13.9 User Report Library
+
+### Requirement
+Signed-in users must be able to revisit unlocked reports.
+
+### Behavior
+- show prior unlocked reports
+- show report date
+- show source URL
+- show whether the report was fresh or cached at time of unlock
 
 ---
 
 ## 14. Non-Functional Requirements
 
-### 14.1 Simplicity
-The codebase should be easy for a solo builder to navigate.
+### 14.1 Speed
+The initial URL submission experience must feel fast and responsive.
 
-### 14.2 Maintainability
-Code should be organized by feature/module, not scattered by framework layer alone.
+### 14.2 Simplicity
+The product should require minimal explanation.
 
-### 14.3 Safety
+### 14.3 Cost Control
+Caching must reduce duplicate scan cost.
+
+### 14.4 Maintainability
+The codebase should remain easy for a solo builder to extend.
+
+### 14.5 Safety
 The product must default to passive, non-destructive behavior.
 
-### 14.4 Explainability
-Findings must be understandable and useful.
+### 14.6 Explainability
+Reports must be understandable to non-experts.
 
-### 14.5 Local Developer Experience
-The stack must run locally with minimal steps using Docker Compose plus app dev servers.
-
-### 14.6 Extensibility
-The design must make it possible to later add:
-- Playwright crawling
-- ZAP integration
-- Kafka
-- alerts
-- authenticated scans
-
-### 14.7 Operational Visibility
-Even early versions should expose enough status and logs to understand what the system is doing.
+### 14.7 Conversion Clarity
+The product must clearly communicate when signup is required and when payment is required.
 
 ---
 
-## 15. Security / Compliance Constraints
+## 15. Trust, Safety, and Compliance Constraints
 
-ExposureGuard must operate only on targets the user owns or is authorized to scan.
+ExposureGuard must operate as a defensive, passive website checker.
 
 Initial product constraints:
-- no broad internet scanning
-- no active exploitation posture
-- no verification of leaked credentials against third-party live services
-- no aggressive traffic generation as a default
-- no scanning outside intended scope
+- no aggressive or destructive scanning
+- no exploitation workflows
+- no credential verification against third-party live services
+- no internet-wide scanning mode
+- no active attack behavior
 
 The product should be framed as:
-- authorized website health checking
+- website exposure checking
 - passive inspection first
-- defensive engineering tooling
+- informational and defensive reporting
+
+Because the product allows URL submission without upfront sign-in, abuse controls should be considered early, such as:
+- rate limiting
+- CAPTCHA or bot checks if needed
+- IP-based throttling
+- queue backpressure
 
 ---
 
-## 16. Proposed Technical Architecture
+## 16. Product UX Requirements
 
-## 16.1 Frontend
+## 16.1 Landing Page
+Must let visitors:
+- understand the product in seconds
+- paste in a URL immediately
+- start a test without creating an account
+
+Must communicate:
+- what the product checks
+- that the first step is instant
+- that signup is only required to unlock the full report
+
+## 16.2 Pre-Unlock Result State
+Must show:
+- that the test completed or a cached result was found
+- enough progress and credibility to encourage signup
+- a clear CTA to unlock the full report
+
+## 16.3 Signup Gate
+Must:
+- feel lightweight
+- preserve the current scan/report context
+- return the user to the report immediately after signup
+
+## 16.4 Report View
+Must show:
+- summary header
+- findings list
+- severity indicators
+- evidence
+- remediation
+- report source URL
+- report timestamp
+- cached vs fresh label if useful
+
+## 16.5 Free Usage Messaging
+Must show:
+- remaining free tests/report unlocks
+- what happens after quota is exhausted
+- upgrade CTA when needed
+
+---
+
+## 17. Proposed Technical Architecture
+
+## 17.1 Frontend
 **React + TypeScript**
 
 Responsibilities:
-- site management UI
-- scan history UI
-- findings UI
-- job status polling
-- operational dashboard experience
+- landing page and submission flow
+- status/progress UI
+- signup and unlock flow
+- report UI
+- account report history
+- upgrade/paywall UI
 
-## 16.2 Backend
+## 17.2 Backend
 **Spring Boot modular monolith**
 
 Responsibilities:
-- REST API
-- persistence
-- async job lifecycle
-- future integration orchestration
+- URL intake and normalization
+- scan job orchestration
+- cache lookup
+- findings persistence
+- account/report entitlement logic
+- quota enforcement
 
-## 16.3 Database
+## 17.3 Database
 **PostgreSQL + Spring Data JPA / Hibernate**
 
 Responsibilities:
-- sites
+- users
 - scan jobs
+- normalized targets
+- reports
 - findings
-- later: crawl artifacts, scan metadata, suppressions, alerts
+- report unlocks / entitlements
+- usage counts
 
-## 16.4 Infra
+## 17.4 Infra
 **Docker Compose**
 
 Responsibilities:
 - local PostgreSQL
-- later ZAP container
 - later supporting services
 
-## 16.5 Later Integrations
-- Playwright Java for crawl discovery
-- OWASP ZAP for passive security scanning
-- Kafka for event-driven scan stages
+## 17.5 Later Integrations
+- OWASP ZAP or equivalent passive scanner
+- Playwright for discovery later if needed
+- Stripe for payments
+- email provider for auth/report notifications
 
 ---
 
-## 17. Backend Module Design
+## 18. Backend Module Design
 
 Recommended modules:
 
-### `site`
-Owns site creation and retrieval
+### `submission`
+Owns URL intake and normalization
 
 ### `scan`
 Owns scan jobs and lifecycle orchestration
 
+### `cache`
+Owns cache lookup and freshness rules
+
+### `report`
+Owns report generation and retrieval
+
 ### `finding`
-Owns findings storage and retrieval
+Owns findings storage and formatting
 
-### `crawler`
-Owns future page discovery
+### `auth`
+Owns accounts and session management
 
-### `detector`
-Owns future detection logic
-
-### `integration`
-Owns future ZAP / Playwright / Kafka plumbing
+### `billing`
+Owns quota and paid entitlement logic
 
 ### `common`
-Owns shared exception handling, shared types, and common utilities
+Owns shared exceptions, utilities, and base types
 
 ### `config`
-Owns application-wide config
+Owns application-wide configuration
 
 ---
 
-## 18. Frontend Module Design
+## 19. Frontend Module Design
 
 Recommended features:
 
-### `sites`
-- list sites
-- create site
-- view site details
+### `landing`
+- hero/value prop
+- URL input
+- submit action
 
-### `scan-jobs`
-- create scan
-- list scan runs
-- show status
+### `scan-status`
+- queued/running/completed states
+- cached-result messaging
 
-### `findings`
-- list findings
-- show severity
-- show evidence and remediation
+### `auth-gate`
+- signup/login flow
+- restore report context after auth
+
+### `reports`
+- report detail view
+- findings list
+- summary cards
+
+### `account`
+- unlocked report history
+- usage/remaining credits
+- upgrade state
 
 Recommended app structure:
 - feature-first
 - route pages stay thin
 - API access centralized per feature
-- server state handled cleanly
-- no premature global state complexity
+- minimal global state
+- clean handling of async server state
 
 ---
 
-## 19. Data Model
+## 20. Data Model
 
-## 19.1 Site
-Represents a website registered for scanning.
-
+## 20.1 User
 Suggested fields:
 - `id`
-- `name`
-- `baseUrl`
+- `email`
+- `passwordHash` or external auth reference
+- `planType`
+- `freeCreditsUsed`
 - `createdAt`
 - `updatedAt`
 
-## 19.2 ScanJob
-Represents one scan execution for a site.
+## 20.2 Target
+Represents a normalized website target.
 
 Suggested fields:
 - `id`
-- `siteId`
+- `normalizedUrl`
+- `displayUrl`
+- `createdAt`
+- `updatedAt`
+
+## 20.3 ScanJob
+Represents one scan execution.
+
+Suggested fields:
+- `id`
+- `targetId`
 - `status`
+- `cacheHit` (boolean)
 - `createdAt`
 - `startedAt`
 - `finishedAt`
 - `failureReason` (nullable)
 
-## 19.3 Finding
-Represents an issue discovered by a scan.
+## 20.4 Report
+Represents a completed result set.
 
 Suggested fields:
 - `id`
-- `siteId`
+- `targetId`
 - `scanJobId`
+- `summary`
+- `score` or aggregate status (optional)
+- `isCachedEligible`
+- `expiresAt`
+- `createdAt`
+
+## 20.5 Finding
+Represents one issue discovered.
+
+Suggested fields:
+- `id`
+- `reportId`
 - `title`
 - `type`
 - `severity`
@@ -571,246 +715,214 @@ Suggested fields:
 - `remediation`
 - `createdAt`
 
-## 19.4 Later Entities
-- `DiscoveredPage`
-- `Asset`
-- `ScanArtifact`
-- `Suppression`
-- `AlertRule`
-- `NotificationEvent`
+## 20.6 ReportUnlock
+Represents a user's entitlement to access a report.
+
+Suggested fields:
+- `id`
+- `userId`
+- `reportId`
+- `unlockType` (`FREE`, `PAID`)
+- `createdAt`
 
 ---
 
-## 20. API Surface
+## 21. API Surface
 
-## 20.1 Sites
-- `POST /api/sites`
-- `GET /api/sites`
-- `GET /api/sites/{id}`
+## 21.1 Public Submission
+- `POST /api/tests`
+- `GET /api/tests/{id}/status`
+- `GET /api/tests/{id}/unlock-state`
 
-## 20.2 Scan Jobs
-- `POST /api/sites/{id}/scan-jobs`
-- `GET /api/sites/{id}/scan-jobs`
+## 21.2 Auth
+- `POST /api/auth/signup`
+- `POST /api/auth/login`
+- `GET /api/me`
 
-## 20.3 Findings
-- `GET /api/sites/{id}/findings`
-- `GET /api/scan-jobs/{id}/findings`
+## 21.3 Reports
+- `POST /api/reports/{id}/unlock`
+- `GET /api/reports/{id}`
+- `GET /api/me/reports`
+
+## 21.4 Usage / Billing
+- `GET /api/me/usage`
+- `POST /api/billing/checkout` (later)
 
 Future:
-- resolve/ignore finding endpoints
-- authenticated scan configuration endpoints
-- scan settings endpoints
-
----
-
-## 21. UX Requirements
-
-## 21.1 Sites Page
-Must let users:
-- create a site
-- see existing sites
-- navigate into a site
-
-## 21.2 Site Detail Page
-Must show:
-- site metadata
-- scan history
-- button to start scan
-- current/latest scan status
-- summary of findings or a link to findings view
-
-## 21.3 Findings View
-Must show:
-- finding title
-- severity
-- affected URL
-- evidence
-- remediation
-- associated scan/job context
-
-## 21.4 States
-The UI must handle:
-- loading
-- empty
-- success
-- failure
-- in-progress scan
+- export/share endpoints
+- recurring monitoring endpoints
+- notification settings
 
 ---
 
 ## 22. Metrics for Success
 
 ### Product Metrics
-- number of sites created
-- number of scans run
-- scans completed successfully
-- findings generated per scan
-- average scan duration
+- homepage to test-start conversion
+- test-start to signup conversion
+- signup to report-unlock conversion
+- free-to-paid conversion after quota exhaustion
+- repeat usage rate
 
 ### UX Metrics
-- time from site creation to first scan completed
-- time from scan completion to findings review
-- internal tester ability to complete flow without guidance
+- time from landing to test start
+- time from test start to result ready
+- drop-off at signup gate
+- drop-off at paywall
 
 ### Technical Metrics
-- backend boot success
-- local full-stack run success
-- scan job failure rate
-- time to process a fake scan
-- later: crawl duration, findings normalization time, passive scan duration
-
-For MVP, these can mostly be observed manually.
+- cache hit rate
+- scan completion rate
+- average fresh scan duration
+- average cached result response time
+- abuse/rate-limit triggers
 
 ---
 
 ## 23. Milestones
 
-## Milestone 1: Project Scaffolding
+## Milestone 1: Foundation
 Deliverables:
-- Spring Boot backend generated
-- React frontend generated
+- frontend and backend scaffolding
 - PostgreSQL in Docker Compose
 - health endpoint
-- basic repo structure
+- basic landing page
 
-## Milestone 2: CRUD + Persistence
+## Milestone 2: URL Submission + Fake Scan Loop
 Deliverables:
-- `Site` model
-- `ScanJob` model
-- create/list endpoints
-- DB persistence works
+- URL validation
+- normalized URL handling
+- async fake scan worker
+- job status polling
 
-## Milestone 3: Fake Async Scan Loop
+## Milestone 3: Report Model + Cache
 Deliverables:
-- async worker
-- job status transitions
-- mock findings persisted
+- report persistence
+- findings persistence
+- cache lookup logic
+- cache freshness rules
 
-## Milestone 4: Dashboard
+## Milestone 4: Auth Gate + Unlock Flow
 Deliverables:
-- sites page
-- site detail page
-- scan job list
-- findings list
+- signup/login flow
+- report unlock flow
+- restore post-auth context
+- saved report history
 
-## Milestone 5: Real Discovery
+## Milestone 5: Free Tier Metering
 Deliverables:
-- crawl module introduced
-- discovered pages stored
-- findings tied to real crawl artifacts
+- free quota tracking
+- 3-report free limit
+- upgrade/paywall screen
 
-## Milestone 6: Passive Detection
+## Milestone 6: Real Detection Engine
 Deliverables:
-- custom passive detectors
-- improved findings quality
+- passive detectors
+- real findings instead of only fake data
+- better report quality
 
-## Milestone 7: ZAP Integration
+## Milestone 7: Billing + Polish
 Deliverables:
-- baseline/passive scanning
-- ingestion of scanner results
-
-## Milestone 8: Advanced Platform
-Deliverables:
-- authenticated scans
-- alerts
-- observability
-- Kafka/event pipeline later
+- payment integration
+- plan enforcement
+- conversion polish
 
 ---
 
 ## 24. MVP Acceptance Criteria
 
 The MVP is successful when:
-
-- a site can be created
-- a scan job can be started from the UI
-- the backend processes the job asynchronously
-- scan status changes are visible
-- findings are written to PostgreSQL
-- findings can be viewed in the dashboard
-- the app runs locally across frontend, backend, and database
-- the experience is good enough for an internal demo
+- a visitor can paste in a URL without signing in
+- a test can be started immediately
+- the backend either returns a cached result or runs a fresh scan
+- scan status is visible in the UI
+- a full report exists when the scan completes
+- the user must create an account to unlock the report
+- the system enforces a maximum of 3 free report unlocks/tests per account
+- the user sees a paywall after exhausting free quota
+- unlocked reports are saved to the user account
+- the product is simple enough for an internal demo and early user testing
 
 ---
 
 ## 25. Risks
 
-### 25.1 Builder Risk
-The builder is learning Java/Spring while building the project.
+### 25.1 Abuse Risk
+Anonymous submission can attract bot or abusive traffic.
 
 **Mitigation:**
-Keep architecture simple, start with CRUD, prove the product loop early.
+Rate limits, IP throttling, queue controls, and optional CAPTCHA.
 
-### 25.2 Over-Engineering Risk
-Too much focus on Kafka, microservices, or scanners too early may stall progress.
-
-**Mitigation:**
-Follow staged build order and do not add distributed systems before the monolith works.
-
-### 25.3 Scope Risk
-Security products can balloon in complexity quickly.
+### 25.2 Confusing Gating Risk
+If the signup or paywall appears too early or too hard, users may feel tricked.
 
 **Mitigation:**
-Keep MVP focused on authorized, passive, obvious findings.
+Be explicit that running the test is free and signup is required only to unlock the full report.
 
-### 25.4 False Positive Risk
-Detection quality may be noisy.
-
-**Mitigation:**
-Start with a narrow set of high-confidence detections and good evidence formatting.
-
-### 25.5 Legal / Safety Risk
-Scanning beyond owned/authorized targets would create trust and safety problems.
+### 25.3 Cache Quality Risk
+Serving stale results may reduce trust.
 
 **Mitigation:**
-Keep product positioning and UX clearly centered on customer-owned targets.
+Use configurable cache windows, clear report timestamps, and later allow paid reruns/refreshes.
+
+### 25.4 Detection Quality Risk
+Weak findings reduce conversion.
+
+**Mitigation:**
+Start with narrow, high-confidence checks and strong explanation.
+
+### 25.5 Scope Risk
+The product can drift back into a full security platform too early.
+
+**Mitigation:**
+Keep the MVP tightly focused on paste URL -> run test -> unlock report.
 
 ---
 
 ## 26. Open Questions
 
-- Will the first “real” scanning milestone use Playwright first, ZAP first, or both together?
-- Should domain verification exist in MVP, or wait until authenticated scans?
-- Should findings support ignore/resolve in the MVP or later?
-- Should the first scan use only fake findings until the dashboard feels complete?
-- When should Flyway replace `ddl-auto: update`?
-- When should auth/login be added to the product itself?
+- Should users see a tiny preview before signup, or only the “report ready” state?
+- Should the 3 free tests be lifetime, monthly, or launch-configurable?
+- Should paid plans unlock unlimited tests, credits, or a monthly quota?
+- Should a cached result consume a free credit when unlocked by a new user?
+- Should users be allowed to force-refresh a cached URL on a paid plan only?
+- What is the ideal cache freshness window for trust vs cost?
+- Is domain verification needed before the product scales publicly?
 
 ---
 
 ## 27. Recommended Build Order
 
-1. Scaffold backend, frontend, and infra
-2. Add PostgreSQL config and health endpoint
-3. Build `Site` CRUD
-4. Build `ScanJob` creation + listing
-5. Add fake async worker
-6. Add `Finding` persistence
-7. Build dashboard pages
-8. Improve status polling and UI
-9. Add real crawl discovery
-10. Add passive detectors
-11. Add ZAP baseline integration
-12. Add authenticated scan support
-13. Add observability
-14. Add Kafka only after core scan flow is working
+1. Scaffold frontend, backend, and database
+2. Build landing page with URL submission
+3. Add URL validation and normalization
+4. Add fake async scan loop
+5. Persist reports and findings
+6. Add cache lookup and freshness logic
+7. Build report-ready and unlock states
+8. Add signup/login flow
+9. Add free quota enforcement
+10. Add paywall/upgrade flow
+11. Replace fake findings with real passive detectors
+12. Improve trust, polish, and conversion
 
 ---
 
 ## 28. Definition of Done for v0.1
 
 ExposureGuard v0.1 is done when:
-
-- the local stack is easy to run
-- the product loop is complete
-- the codebase is clean enough to extend
-- the builder understands the core backend structure
-- the dashboard communicates real product value
-- the project is strong enough to demo and continue building
+- the landing page instantly communicates the product
+- users can start a test with no sign-in
+- caching prevents duplicate reruns for the same URL within the freshness window
+- signup is required to unlock results
+- free accounts get 3 report unlocks/tests
+- paid gating works after quota exhaustion
+- the product feels simple, casual, and credible
+- the codebase is clean enough to keep building on
 
 ---
 
-## 29. Appendix: Recommended v0.1 Stack
+## 29. Recommended v0.1 Stack
 
 ### Backend
 - Java 21
@@ -833,15 +945,14 @@ ExposureGuard v0.1 is done when:
 - Docker Compose
 
 ### Later
-- Playwright Java
-- OWASP ZAP
+- OWASP ZAP or similar passive engine
+- Playwright
+- Stripe
+- email auth provider
 - Flyway
-- Kafka
-- Spring Security
-- metrics/tracing
 
 ---
 
 ## 30. One-Line Product Statement
 
-ExposureGuard helps developers safely inspect websites they own for exposed secrets, information leaks, and common public-facing issues through a simple scan-and-review workflow.
+ExposureGuard lets anyone paste in a website URL, run a safe instant check without signing in, and unlock a clear report through a simple freemium flow.
