@@ -2,7 +2,8 @@ import { Navigate, createBrowserRouter } from 'react-router-dom'
 import { appRoutes } from './routes'
 import { AppLayout, MarketingLayout } from './shell-layouts'
 import { DesignSystemPage } from '../pages/DesignSystemPage'
-import { MarketingPlaceholderPage } from '../pages/MarketingPlaceholderPage'
+import { AuraLandingPage } from '../pages/AuraLandingPage'
+import { CobaltLandingPage } from '../pages/CobaltLandingPage'
 import { ProductPlaceholderPage } from '../pages/ProductPlaceholderPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 
@@ -137,35 +138,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: 'aura',
-        element: (
-          <MarketingPlaceholderPage
-            eyebrow="Executive concept"
-            title="Aura landing page"
-            description="Layout-only marketing shell for the premium, governance-led landing direction generated in Stitch."
-            stitchReference="2382934153414b4e9a7f66baa223ec38 - ExposureGuard Aura: Executive Landing Page"
-            narrative={[
-              'Hero led by confidence, multi-site visibility, and executive trust signals',
-              'Editorial long-scroll sequence for methodology, governance, and safe-scan policy',
-              'High-clarity conversion band for demo requests and sample reports',
-            ]}
-          />
-        ),
+        element: <AuraLandingPage />,
       },
       {
         path: 'cobalt',
-        element: (
-          <MarketingPlaceholderPage
-            eyebrow="Operator concept"
-            title="Cobalt landing page"
-            description="Layout-only marketing shell for the product-led, workflow-driven landing direction generated in Stitch."
-            stitchReference="d31a1d1e4e9d4561935bda68972118e1 - ExposureGuard Cobalt: Operator Landing Page"
-            narrative={[
-              'Hero framed around scan velocity, findings triage, and remediation throughput',
-              'Dense but controlled product storytelling for workflow, evidence, and operator control',
-              'Action-oriented CTA structure for trial starts and guided walkthroughs',
-            ]}
-          />
-        ),
+        element: <CobaltLandingPage />,
       },
     ],
   },
